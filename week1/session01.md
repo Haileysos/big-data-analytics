@@ -50,7 +50,7 @@ Value 가치
 데이터의 수집부터 가치 창출까지의 엔드투엔드(end-to-end) 아키텍처  
 <img width="100%" alt="image" src="https://github.com/user-attachments/assets/5a75d607-fbd7-4ece-8fa1-6a62973f241c" />  
 
---
+---
 
 # 빅데이터 구성요소 매트릭스  
 데이터 인프라부터 실제 비즈니스 가치 창출까지의 계층적 역할 정의  
