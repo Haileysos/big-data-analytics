@@ -11,9 +11,6 @@ Distributed Architecture & Data Lakehouse
  레이크/웨어하우스/레이크하우스 아키텍처 비교
  파티셔닝/포맷/메타데이터 전략 수립
 
----
-
-# SESSION 01 Distributed Systems & Hadoop Core   
 ---  
 # 분산 시스템 Distributed Systems 의 4가지 핵심 메커니즘   
 1. 데이터 파티셔닝 (Partitioning) [scale-out]   
