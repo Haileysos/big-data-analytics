@@ -107,7 +107,8 @@ Facebook : HDFS와 MapReduce라는 분산 시스템을 통해 서버 한 대가 
 
 # MapReduce Processing Stages  
 ###### 데이터 저장 방법(HDFS)을 배웠으니, 이제 이 저장된 데이터를 가지고 실제로 계산(MapReduce)하는 방법을 배울 차례  
-<img width="70%" alt="image" src="https://github.com/user-attachments/assets/ab67973c-72e9-4a50-820e-56c09e1af3bb" />
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/ab67973c-72e9-4a50-820e-56c09e1af3bb" />  
+
 ###### 책에 수만 개의 단어가 있을 때, "hello"라는 단어가 총 몇 번 나오는지 세어보는 상황  
 
 ```
@@ -128,8 +129,7 @@ Facebook : HDFS와 MapReduce라는 분산 시스템을 통해 서버 한 대가 
      (Sum([1, 1]))최종적으로 "hello는 총 2번 나왔다!"라는 Result: (hello, 2)를 도출합니다.
      이 결과를 마스터 노드가 취합하여 우리에게 보여주는 것입니다.
 ```
-
-📌 최종 요약 : HDFS가 데이터를 여러 서버에 안전하게 나누어 담아놓았기 때문에, 
+▶ 요약 : HDFS가 데이터를 여러 서버에 안전하게 나누어 담아놓았기 때문에, 
 MapReduce가 각 서버에 찾아가 데이터를 동시에 Map(쪼개서 계산)하고, Shuffle(모아서), Reduce(합산)하는 병렬 처리가 가능해진 것  
 
 <br>
