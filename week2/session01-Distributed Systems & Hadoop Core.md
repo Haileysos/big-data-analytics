@@ -81,9 +81,10 @@ Facebook : HDFS와 MapReduce라는 분산 시스템을 통해 서버 한 대가 
 <br>  
 
 ## HDFS 메커니즘   
-<img width="30%" align="left" src="https://github.com/user-attachments/assets/1700c7ff-5780-4044-bdb6-8da54a86ca4a" />
-<img width="30%" align="left" src="https://github.com/user-attachments/assets/d1e2b9c7-ac4d-4a99-aab4-d280a905898f" />
-<br clear="left"/>  
+<img width="30%" align="left" src="https://github.com/user-attachments/assets/1700c7ff-5780-4044-bdb6-8da54a86ca4a" />  
+<img width="30%" align="left" src="https://github.com/user-attachments/assets/d1e2b9c7-ac4d-4a99-aab4-d280a905898f" />  
+<br clear="left"/>   
+
 ` '3. 랙 인지 (Rack Awareness)'라는 기술이 실제로 작동하는 모습
 "전원선이 통째로 뽑히는 장애가 나더라도 데이터가 유실되지 않도록, 3개의 복사본을 랙(선반) 구조를 고려해서 전략적으로 나누어 담는 모습"을 시각 자료로 증명하고 있는 것입니다.
 +
@@ -95,9 +96,51 @@ Facebook : HDFS와 MapReduce라는 분산 시스템을 통해 서버 한 대가 
 그림의 파란 네모(■)가 데이터 복사본입니다. 
 사본 1 로컬 노드 (Rack 1의 Node 1 ■) : 내가 현재 작업 중인 컴퓨터(Node 1)에 첫 번째 복사본을 바로 저장합니다. 가장 빠릅니다.
 사본 2 다른 랙의 노드 (Rack 2의 Node 4 ■) : Rack 1이 통째로 불타버릴 때를 대비해서, 아예 물리적으로 떨어진 다른 선반인 Rack 2의 컴퓨터에 두 번째 복사본을 보냅니다.
-사본 3 사본 2와 같은 랙의 다른 노드 (Rack 2의 Node 5 ■) : 세 번째 복사본은 사본 2가 있는 Rack 2 안에서 다른 컴퓨터(Node 5)에 저장합니다. 랙 간에 데이터를 전송하는 것은 네트워크 비용이 많이 들기 때문에, 이미 데이터가 건너간 Rack 2 내부에서 해결하여 네트워크 트래픽을 최적화하는 것입니다.`
+사본 3 사본 2와 같은 랙의 다른 노드 (Rack 2의 Node 5 ■) : 세 번째 복사본은 사본 2가 있는 Rack 2 안에서 다른 컴퓨터(Node 5)에 저장합니다. 랙 간에 데이터를 전송하는 것은 네트워크 비용이 많이 들기 때문에, 이미 데이터가 건너간 Rack 2 내부에서 해결하여 네트워크 트래픽을 최적화하는 것입니다.`  
 
+<br><br>
 
+# MapReduce Processing Stages  
+###### 데이터 저장 방법(HDFS)을 배웠으니, 이제 이 저장된 데이터를 가지고 실제로 계산(MapReduce)하는 방법을 배울 차례  
+`
 
+`
 
+<br>
 
+## MapReduce 한계와 Spark 등장  
+###### 디스크 기반 배치 처리의 병목 현상과 인메모리 처리의 혁신  
+<table>
+  <tr>
+    <td width="400" align="center">
+      <img src="https://github.com/user-attachments/assets/448bfcb0-1482-483e-8c2c-ced00bab466b" width="100%">
+    </td>
+    <td>
+      <h3>MapRefuce 의 구조적 한계</h3>
+      <p>
+         - 디스크 I/O 병목 : 각 단계(Map, Reduce)마다 결과를 HDFS(디스크)에 쓰고 다시 읽어야 함<br>
+         - Shuffle 오버헤드 : 데이터 재분배(Sort&Transfer)과정에서 막대한 네트워크 트래픽 발생<br>
+         - 반복 알고리즘 비효율 : 머신러닝과 같이 반복(Iteration)이 많은 작업에서 성능 급격히 저하
+      </p>
+    </td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td width="400" align="center">
+      <img src="https://github.com/user-attachments/assets/c7d37b58-adaa-423b-bfd7-d01088583647" width="100%">
+    </td>
+    <td>
+      <h3>Spark의 해결책 (In-Memory)</h3>
+      <p>
+         - 중간 결과를 메모리(RAM)에 유지하여 디스크 I/O를 획기적으로 줄임<br>
+         - 반복 작업 시 MapReduce 대비 최대 100배 빠른 성능 제공
+      </p>
+    </td>
+  </tr>
+</table>
+
+<br><br>
+
+# CAP 이론 (The CAP Theorem)  
+###### 분산 데이터 저장소가 만족해야 하는 3가지 속성과 트레이드오프  
