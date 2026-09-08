@@ -187,11 +187,22 @@ MapReduce가 각 서버에 찾아가 데이터를 동시에 Map(쪼개서 계산
 네트워크 장애로 인한 분할(P)은 분산 환경에서 언제든 발생할 수 있으므로,
 P를 기본 전제로 안고 가고, 일관성(C)와 가용성(A) 중 하나를 선택(Pick Two)해야 한다.  
 
-CP 시스템 [Consistency + Partition Tolerance] 
-> 특징 : 일관성 우선 / 가용성 희생
-> 네트워크 분할 시, 일관성 유지를 위해 응답을 거부하거나 대기
-> ex : HBase, BigTable, 금융 거래 시스템  
+CP 시스템 [Consistency + Partition Tolerance]   
+> 특징 : 일관성 우선 / 가용성 희생  
+> 완벽한 데이터 일관성을 위해 일부 가용성 희생  
+> 네트워크 분할 시, 일관성 유지를 위해 응답을 거부하거나 대기  
+> ex : HBase, BigTable, 금융 거래 시스템   
 
+AP 시스템 [Availability + Partition Tolerance]  
+> 특징 : 가용성 우선 / 데이터 불일치 허용
+> 언제나 응답하기 위해 일시적 불일치 허용  
+> 네트워크 분할 시에도 서비스 지속, 추후 동기화 (Eventual Consistency)
+> ex : Cassandra, DynamoDB, 소셜 미디어 피드
+
+CA 시스템 [Consistency + Availability] 
+> 특징 : 현실적 불가
+> 설명 : 네트워크 장애(P)가 없는 이상적 환경에서만 가능
+> 단일 서버 RDBMS(MySQL, PostgreSQL)가 이에 해당하나, 분산 환경에서는 P를 포기할 수 없음
 
 
 실제 아키텍처 설계는 예기치 못한 네트워크 장애가 발생했을 때, 우리 비즈니스에 더 치명적인 것은 데이터 불일치 (일관성(C)포기 불가)인지 서비스 중단(가용성(A)포기 불가)인지를 결정해야 하는 비즈니스적 판단이다.
