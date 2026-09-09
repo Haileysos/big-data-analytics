@@ -207,17 +207,47 @@ CA 시스템 [Consistency + Availability]
 
 실제 아키텍처 설계는 예기치 못한 네트워크 장애가 발생했을 때, 우리 비즈니스에 더 치명적인 것은 데이터 불일치 (일관성(C)포기 불가)인지 서비스 중단(가용성(A)포기 불가)인지를 결정해야 하는 비즈니스적 판단이다.
 
+<br>
 
+## CP vs AP  
+###### 실제 비즈니스 환경에서 시스템 선택 기준과 데이터 일관성 관리 전략   
+CP 시스템 
+- 대표 기술 : HBase, BigTable, Redis, MongoDB
+- 핵심 트레이드 오프 : 네트워크 분단 시 서비스 중단 위험 감수, 모든 노드가 최신 데이터를 갖출 때까지 대기
+- 적합한 유즈케이스 : 금융거래, 재고관리, 결제시스템
 
+AP 시스템
+- 대표기술 : Cassandra, DynamoDB, Couchbase
+- 핵심 트레이드 오프 : 일시적인 데이터 불일치 감수, 언제나 응답하지만 오래된 데이터를 줄 수 있음
+- 적합한 유즈케이스 : 소셜피드, 장바구니, IoT센서로그
 
+<br>
 
+## 일관성 수준 전략 Consistency Levels  
+<img width="90%" alt="image" src="https://github.com/user-attachments/assets/e9b427db-487f-4516-8e40-7f87f5974b29" />
 
+<br><br>
 
+# YARN 아키텍처 및 동작 원리  
+###### Yet Another Resource Negotiator: 리소스 관리와 스케줄링의 분리  
+###### 리소스 관리와 작업 실행의 분리로 확장성 및 효율성 극대화  
 
+<img width="40%" alt="image" src="https://github.com/user-attachments/assets/e724a3c7-7d05-4a1f-9799-ac26cc4bbe46" />  
 
+Resource Manager [Master]
+> 클러스터 전체의 리소스를 관리하고 애플리케이션에 할당하는 순수 스케쥴러
+> 작업의 상태를 모니터링하고 실패 시 재할당을 결정하지 않음 → AM 담당
+> - Scheduler : 리소스 할당 결정
+> - Apps Manager : 애플리케이션 수명주기 관리
 
+Node Manager [Slave]
+> 각 노드의 리소스(CPU, RAM) 사용량을 모니터링
+> Container의 생명주기 관리
+> Resource Manager에게 지속적으로 상태 보고(Heartbeat)
 
-
+Application Master  
+> 애플리케이션별로 생성되는 관리자
+> RM에게 리소스를 요청하고 할당받은 리소스(Container)에서 실제 작업 실행 및 감독
 
 
 
