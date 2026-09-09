@@ -232,26 +232,43 @@ AP 시스템
 ###### Yet Another Resource Negotiator: 리소스 관리와 스케줄링의 분리  
 ###### 리소스 관리와 작업 실행의 분리로 확장성 및 효율성 극대화  
 
-<img width="40%" alt="image" src="https://github.com/user-attachments/assets/e724a3c7-7d05-4a1f-9799-ac26cc4bbe46" />  
+<img width="70%" alt="image" src="https://github.com/user-attachments/assets/579b8ee6-6024-466e-b0aa-53271ff417e4" />  
 
 Resource Manager [Master]
-> 클러스터 전체의 리소스를 관리하고 애플리케이션에 할당하는 순수 스케쥴러
-> 작업의 상태를 모니터링하고 실패 시 재할당을 결정하지 않음 → AM 담당
-> - Scheduler : 리소스 할당 결정
-> - Apps Manager : 애플리케이션 수명주기 관리
+> 클러스터 전체의 리소스를 관리하고 애플리케이션에 할당하는 순수 스케쥴러  
+> 작업의 상태를 모니터링하고 실패 시 재할당을 결정하지 않음 → AM 담당  
+> - Scheduler : 리소스 할당 결정 "어느 노드에 CPU와 메모리를 얼마큼 줄 것인가"  
+> - Apps Manager : 애플리케이션 수명주기 관리  
 
-Node Manager [Slave]
-> 각 노드의 리소스(CPU, RAM) 사용량을 모니터링
-> Container의 생명주기 관리
-> Resource Manager에게 지속적으로 상태 보고(Heartbeat)
+Node Manager [Slave]  
+> 각 노드의 리소스(CPU, RAM) 사용량을 모니터링  
+> Container의 생명주기 관리  
+> Resource Manager에게 지속적으로 상태 보고(Heartbeat)  
 
-Application Master  
-> 애플리케이션별로 생성되는 관리자
-> RM에게 리소스를 요청하고 할당받은 리소스(Container)에서 실제 작업 실행 및 감독
+Application Master    
+> 애플리케이션별로 생성되는 관리자  
+> RM에게 리소스를 요청하고 할당받은 리소스(Container)에서 실제 작업 실행 및 감독  
 
+<br>  
 
+## YARN 스케줄러 3가지 정책
 
+FIFO Scheduler    
+> 가장 먼저 들어온 작업부터 순차적으로 처리   
+> 구현은 간단하지만, 큰 작업이 작은 작업을 블로킹할 수 있음   
 
+Capacity Scheduler     
+> 조직별로 전용 큐(Queue)를 생성하여 리소스 용량을 보장   
+> 큐 내부에서는 기본적으로 FIFO 방식으로 동작하며, 유휴 자원 공유 가능     
+
+Fair Scheduler    
+> 실행 중인 모든 작업이 클러스터 리소스를 공평하게 나누어 사용    
+> 새로운 작업이 추가되거나 종료될 때마다 각 작업에 할당되는 리소스 비율을 동적으로 재분배   
+  
+<br>
+
+## YARN의 핵심 가치 : 멀티테넌시 (Multi-tenancy)  
+과거 Hadoop 1.0에서는 MapReduce만 실행할 수 있었지만, YARN 구조 도입 이후 MapReduce, Spark, Flink, Tez 등 다양한 컴퓨팅 엔진을 하나의 물리 클러스터 위에서 동시에 실행이 가능하게 되었습니다.
 
 
 
