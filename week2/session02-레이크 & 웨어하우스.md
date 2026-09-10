@@ -97,10 +97,29 @@ small files problem : 과도한 파티셔닝은 수만 개의 작은 파일을 �
 | Parquet | 열 Columnar | O | 높은 압축률, 컬럼 스캔 최적화, Spark 생태계 표준 | 쓰기 오버헤드 큼, 전체 레코드 조회 시 느림 |    
 | ORC | 열 Columnar | O | Hive/Presto 최적화, 인덱싱/통계 정보 우수 | Spark환경에서는 Parquet보다 덜 효율적일 수 있음 |   
 
+<br>  
+
+## 저장방식의 차이  
+행 기반 (Row-based)   
+> 데이터를 한 줄씩 연속 저장  
+> 전체 레코드를 한 번에 쓸 때, 빠름 (쓰기 유리)  
+
+열 기반 (Columnar)    
+> 같은 컬럼끼리 모아서 저장   
+> 특정 컬럼만 읽을 때, I/O 획기적 감소   
+> 압축 효율 매우 높음 (분석 유리)   
+
+<br>
+
 ## 최적화 전략  
 Row vs Columnar 
 > Row : 쓰기 작업, 전체 레코드 조회, 트랜잭션 처리에 유리
 > Column : 분석 쿼리, 집계, 특정 컬럼 조회에 유리
 
 Compression
-> Snappy : 매우 빠름, 압축률 낮음  
+> Snappy : 매우 빠름, 압축률 낮음 (실시간/Hot 데이터)
+> Gzip/Zstd : 압축률 높음, CPU 사용량 높음 (Cold 데이터 보관)
+
+Best Practice  
+> Bronze 계층 : 원본(JSON/CSV) 유지
+> Silver/Gold 계층 : Parquet/Delta Lake 포멧으로 변환하여 성능 최적화
